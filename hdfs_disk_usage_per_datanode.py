@@ -22,7 +22,7 @@ __author__ = 'Joseph Herlant'
 __copyright__ = 'Copyright 2014, Joseph Herlant'
 __credits__ = ['Joseph Herlant']
 __license__ = 'GNU GPLv3'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 __maintainer__ = 'Joseph Herlant'
 __email__ = 'herlantj@gmail.com'
 __status__ = 'Production'
@@ -38,21 +38,24 @@ if __name__ == '__main__':
         description='A Nagios check to verify all datanodes disk usage in \
                 an HDFS cluster from the namenode web interface.')
     parser.add_argument('-n', '--namenode', required=True,
-        help='hostname of the namenode of the cluster')
+                        help='hostname of the namenode of the cluster')
     parser.add_argument('-p', '--port', type=int, default=50070,
-        help='port of the namenode http interface. Defaults to 50070.')
+                        help='port of the namenode http interface. \
+                        Defaults to 50070.')
     parser.add_argument('-w', '--warning', type=int, default=80,
-        help='warning threshold. Defaults to 80.')
+                        help='warning threshold. Defaults to 80.')
     parser.add_argument('-c', '--critical', type=int, default=90,
-        help='critical threshold. Defaults to 90.')
+                        help='critical threshold. Defaults to 90.')
     args = parser.parse_args()
 
     # Get the web page from the namenode
-    url = "http://%s:%d/dfsnodelist.jsp?whatNodes=LIVE" % (args.namenode, args.port)
+    url = "http://%s:%d/dfsnodelist.jsp?whatNodes=LIVE" % \
+            (args.namenode, args.port)
     try:
         page = Browser().open(url)
     except IOError:
-        print 'CRITICAL: Cannot access namenode interface on %s:%d!' % (args.namenode, args.port)
+        print 'CRITICAL: Cannot access namenode interface on %s:%d!' % \
+                (args.namenode, args.port)
         sys.exit(2)
 
     # parse the page
@@ -70,7 +73,7 @@ if __name__ == '__main__':
             c_msg += ' %s=%s%%,' % (node, pct)
             perfdata += ' %s=%s,' % (node, pct)
         elif pct >= args.warning:
-            w_msg += ' %s is %s%%,' % (node, pct)
+            w_msg += ' %s=%s%%,' % (node, pct)
             perfdata += ' %s=%s,' % (node, pct)
         else:
             perfdata += ' %s=%s,' % (node, pct)
@@ -82,6 +85,9 @@ if __name__ == '__main__':
     elif len(w_msg) > 0:
         print ('WARNING:%s |%s' % (w_msg, perfdata)).strip(',')[:1024]
         sys.exit(1)
+    elif len(perfdata) == 0:
+        print 'CRITICAL: Unable to find any node data in the page.'
+        sys.exit(2)
     else:
         print ('OK |%s' % (perfdata)).strip(',')[:1024]
         sys.exit(0)

@@ -46,15 +46,20 @@ if __name__ == '__main__':
                 cluster is in under the balancing threshold \
                 using the namenode web interface.')
     parser.add_argument('-n', '--namenode', required=True,
-        help='hostname of the namenode of the cluster')
+                        help='hostname of the namenode of the cluster')
     parser.add_argument('-p', '--port', type=int, default=50070,
-        help='port of the namenode http interface. Defaults to 50070.')
-    parser.add_argument('-w', '--warning', type=int, default=10,
+                        help='port of the namenode http interface. \
+                        Defaults to 50070.')
+    parser.add_argument(
+        '-w', '--warning', type=int, default=10,
         help='warning threshold. If the datanode usage differs from average \
-        usage to more than this threshold, raise a warning. Defaults to 10.')
-    parser.add_argument('-c', '--critical', type=int, default=15,
+        usage to more than this threshold, raise a warning. Defaults to 10.'
+        )
+    parser.add_argument(
+        '-c', '--critical', type=int, default=15,
         help='critical threshold.  If the datanode usage differs from average \
-        usage to more than this threshold, raise a critical. Defaults to 15.')
+        usage to more than this threshold, raise a critical. Defaults to 15.'
+        )
     args = parser.parse_args()
 
     # Get the web page from the namenode
