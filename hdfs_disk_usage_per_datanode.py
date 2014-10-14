@@ -22,7 +22,7 @@ __author__ = 'Joseph Herlant'
 __copyright__ = 'Copyright 2014, Joseph Herlant'
 __credits__ = ['Joseph Herlant']
 __license__ = 'GNU GPLv3'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __maintainer__ = 'Joseph Herlant'
 __email__ = 'herlantj@gmail.com'
 __status__ = 'Production'
@@ -70,13 +70,13 @@ if __name__ == '__main__':
         pct = float(pcused[idx].contents[0].strip())
         node = datanodes[idx].findChildren('a')[0].contents[0].strip()
         if pct >= args.critical:
-            c_msg += ' %s=%s%%,' % (node, pct)
-            perfdata += ' %s=%s,' % (node, pct)
+            c_msg += ' %s=%.1f%%,' % (node, pct)
+            perfdata += ' %s=%.1f,' % (node, pct)
         elif pct >= args.warning:
-            w_msg += ' %s=%s%%,' % (node, pct)
-            perfdata += ' %s=%s,' % (node, pct)
+            w_msg += ' %s=%.1f%%,' % (node, pct)
+            perfdata += ' %s=%.1f,' % (node, pct)
         else:
-            perfdata += ' %s=%s,' % (node, pct)
+            perfdata += ' %s=%.1f,' % (node, pct)
 
     # Prints the values and exits with the nagios exit code
     if len(c_msg) > 0:

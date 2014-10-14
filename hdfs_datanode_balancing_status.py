@@ -29,10 +29,10 @@ __author__ = 'Joseph Herlant'
 __copyright__ = 'Copyright 2014, Joseph Herlant'
 __credits__ = ['Joseph Herlant']
 __license__ = 'GNU GPLv3'
-__version__ = '0.0.1'
+__version__ = '1.0.0'
 __maintainer__ = 'Joseph Herlant'
 __email__ = 'herlantj@gmail.com'
-__status__ = 'Development'
+__status__ = 'Production'
 __website__ = 'https://github.com/aerostitch/'
 
 from mechanize import Browser
@@ -94,13 +94,13 @@ if __name__ == '__main__':
 
     for (node, pct) in nodes_pct.items():
         if abs(pct-avg) >= args.critical:
-            c_msg += ' %s=%s,' % (node, pct-avg)
-            perfdata += ' %s=%s,' % (node, pct-avg)
+            c_msg += ' %s=%.1f,' % (node, pct-avg)
+            perfdata += ' %s=%.1f,' % (node, pct-avg)
         elif abs(avg-pct) >= args.warning:
-            w_msg += ' %s=%s,' % (node, pct-avg)
-            perfdata += ' %s=%s,' % (node, pct-avg)
+            w_msg += ' %s=%.1f,' % (node, pct-avg)
+            perfdata += ' %s=%.1f,' % (node, pct-avg)
         else:
-            perfdata += ' %s=%s,' % (node, pct-avg)
+            perfdata += ' %s=%.1f,' % (node, pct-avg)
 
     # Prints the values and exits with the nagios exit code
     if len(c_msg) > 0:
